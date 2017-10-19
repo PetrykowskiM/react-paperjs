@@ -22,6 +22,7 @@ export class Whiteboard extends React.Component<PropsType> {
   componentDidMount() {
     // Setup paper
     Paper.setup(this.whiteboard);
+    
     this.paperTool = new Tool();
     Paper.project.view.zoom = 1;
 
@@ -48,6 +49,7 @@ export class Whiteboard extends React.Component<PropsType> {
       }
     })
 
+    // Thought: How to make sure, that always the right components are being updated, and that not unintentionally new ones are created? -> Otherwise canvas would get messed up. 
     // Test Change Propagation
     setTimeout(() => {
       this.setState({
@@ -74,6 +76,8 @@ export class Whiteboard extends React.Component<PropsType> {
         }
       })
     }, 2000)
+
+    this.setUpMouseEvents()
   }
 
   itemForType(type: String, props, id) {
@@ -83,6 +87,26 @@ export class Whiteboard extends React.Component<PropsType> {
       default:
         return null
     }
+  }
+
+  // Question: Now the state is not being updated correctly. How to correctly pass this events down to the corresponding component
+  //           in order to update everything correctly?
+  setUpMouseEvents() {
+    let selectedItem = null
+    this.paperTool.onMouseDown = (event: ToolEvent) => {
+      // On mouse down
+      selectedItem = event.item
+    };
+
+    this.paperTool.onMouseDrag = (event: ToolEvent) => {
+      console.log("drag item")
+      if(selectedItem){
+        selectedItem.position = event.point
+      }
+    };
+
+    this.paperTool.onMouseUp = (event: ToolEvent) => {
+    };
   }
 
   render() {
