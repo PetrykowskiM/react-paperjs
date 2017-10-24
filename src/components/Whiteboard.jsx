@@ -50,7 +50,7 @@ export class Whiteboard extends React.Component<PropsType> {
     })
 
     // Thought: How to make sure, that always the right components are being updated, and that not unintentionally new ones are created? -> Otherwise canvas would get messed up. 
-    // Test Change Propagation
+    // Test Change Propagation => ids for key-prop
     setTimeout(() => {
       this.setState({
         whiteboardItems: {
@@ -90,7 +90,8 @@ export class Whiteboard extends React.Component<PropsType> {
   }
 
   // Question: Now the state is not being updated correctly. How to correctly pass this events down to the corresponding component
-  //           in order to update everything correctly?
+  //           in order to update everything correctly? => bind event handlers on components instead of globally. Different tools are
+  //           going to be handled in reducer when postit for example calls positionUpdate
   setUpMouseEvents() {
     let selectedItem = null
     this.paperTool.onMouseDown = (event: ToolEvent) => {
