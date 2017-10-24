@@ -11,6 +11,11 @@ export class Selector extends React.Component<PropsType> {
     this.paperElement.fillColor = this.props.color
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Changes should be made here. 
+    // Try out to create a correct diff and update only the changed props.
+  }
+
   render() {
     if(this.paperElement){
       this.paperElement.position = new Point(this.props.position)
